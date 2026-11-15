@@ -11,6 +11,7 @@ window.CaptchaGames.register({
   mount({ element, round, onComplete, onFail }) {
     // Render into element and attach game-specific listeners.
     // Call onComplete() when won and onFail({ mistakes }) when missed.
+    // Optional: call onOffer() to ask the host to show its paid-skip offer.
     // Return a cleanup function to remove listeners and timers.
     return () => element.replaceChildren();
   }

@@ -102,6 +102,9 @@
         stopRandomNag();
         window.setTimeout(() => challenge.close(), 650);
       },
+      onOffer: () => {
+        openOffer("Skip this ad?", "Pay $0.99 through Stripe Checkout to skip the ad and the CAPTCHA.");
+      },
       onFail: () => {
         mistakes += 1;
         gameStatus.textContent = `Not quite. Try the challenge again. (${mistakes} ${mistakes === 1 ? "mistake" : "mistakes"})`;

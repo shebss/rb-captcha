@@ -1,6 +1,5 @@
 (function () {
   const AD_SECONDS = 20 * 60;
-  const SKIP_PENALTY_SECONDS = 60;
   const SLIDE_SECONDS = 9;
 
   // Made-up products only. Each slide rotates while the ad "plays".
@@ -18,10 +17,10 @@
     return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
   };
 
-  function mount({ element, onComplete, onFail }) {
+  function mount({ element, onComplete, onOffer }) {
     let remaining = AD_SECONDS;
-    let total = AD_SECONDS;
-    let mistakes = 0;
+    const total = AD_SECONDS;
+    const mistakes = 0;
     let finished = false;
     let lastTick = performance.now();
     let slideIndex = Math.floor(Math.random() * slides.length);
@@ -102,16 +101,10 @@
       }
     }
 
+    // "Skip Ad" doesn't skip: it asks the host to show its paid-skip offer.
     skip.addEventListener("click", () => {
       if (finished) return;
-      mistakes += 1;
-      remaining += SKIP_PENALTY_SECONDS;
-      total += SKIP_PENALTY_SECONDS;
-      skip.classList.remove("is-denied");
-      void skip.offsetWidth;
-      skip.classList.add("is-denied");
-      render();
-      onFail({ mistakes, gameId: "ad-watch" });
+      if (onOffer) onOffer({ gameId: "ad-watch" });
     });
 
     showSlide();
