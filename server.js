@@ -57,6 +57,7 @@ async function handleApi(request, response, url) {
     try {
       const session = await paymentProvider.checkout.sessions.create({
         mode: "payment",
+        managed_payments: { enabled: false },
         line_items: [{
           price_data: {
             currency: "usd",
