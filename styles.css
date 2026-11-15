@@ -453,3 +453,24 @@ body { background: #f5f6f7; color: #202124; }
 /* Hide each game's top-left status text; counters on the right stay in place. */
 #sequence-status, #aim-status, #reaction-status, #dino-status, #retro-status { visibility: hidden; }
 .arena-status { display: none; }
+
+/* Ad-watch game */
+.ad-game { border: 1px solid #dadce0; background: #fafafa; padding: 12px; }
+.ad-player { position: relative; aspect-ratio: 16 / 9; max-width: 100%; overflow: hidden; background: #000; border-radius: 2px; }
+.ad-slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; text-align: center; transition: background .4s; }
+.ad-slide.is-entering { animation: ad-enter .6s ease-out; }
+.ad-brand { font: 700 clamp(22px, 5vw, 38px)/1 Arial, Helvetica, sans-serif; letter-spacing: -.02em; }
+.ad-line { font: 600 clamp(14px, 2.6vw, 20px)/1.2 Arial, Helvetica, sans-serif; }
+.ad-sub { font: 12px/1.3 Arial, Helvetica, sans-serif; opacity: .8; }
+.ad-badge { position: absolute; left: 10px; bottom: 14px; padding: 3px 7px; border-radius: 2px; background: #000a; color: #ffd75e; font: 700 11px Arial, Helvetica, sans-serif; }
+.ad-skip { position: absolute; right: 0; bottom: 18px; padding: 9px 14px; border: 1px solid #fff6; border-right: 0; background: #000b; color: #fff; font: 13px Arial, Helvetica, sans-serif; cursor: pointer; }
+.ad-skip:hover { background: #000; }
+.ad-skip.is-denied { animation: ad-shake .35s; }
+.ad-skip:disabled { cursor: default; color: #9f9; }
+.ad-paused { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: #000c; color: #fff; text-align: center; font: 13px Arial, Helvetica, sans-serif; }
+.ad-paused[hidden] { display: none; }
+.ad-paused strong { font-size: 18px; }
+.ad-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #fff3; }
+.ad-progress span { display: block; height: 100%; width: 0; background: #ffd75e; }
+@keyframes ad-enter { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes ad-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
