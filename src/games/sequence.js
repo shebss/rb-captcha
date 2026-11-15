@@ -3,7 +3,7 @@
   const labels = { amber: "Amber", blue: "Blue", green: "Green" };
 
   function mount({ element, round, onComplete, onFail }) {
-    const sequenceLength = 6 + round * 2;
+    const sequenceLength = 25;
     const sequence = Array.from({ length: sequenceLength }, () => keys[Math.floor(Math.random() * keys.length)]);
     const timers = new Set();
     let inputIndex = 0;
