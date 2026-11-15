@@ -110,7 +110,7 @@ async function serveStatic(request, response, url) {
   }
   const relativePath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
   const isPublicAsset = relativePath === "index.html" || relativePath === "styles.css" ||
-    /^src\/(?:registry|app)\.js$/.test(relativePath) ||
+    /^src\/(?:registry|app|login-captcha)\.js$/.test(relativePath) ||
     /^src\/games\/[A-Za-z0-9._-]+\.js$/.test(relativePath);
   if (!isPublicAsset) {
     response.writeHead(404).end("Not found");
@@ -123,7 +123,10 @@ async function serveStatic(request, response, url) {
   }
   try {
     const contents = await readFile(filePath);
-    response.writeHead(200, { "content-type": contentTypes[extname(filePath)] || "application/octet-stream" });
+    response.writeHead(200, {
+      "content-type": contentTypes[extname(filePath)] || "application/octet-stream",
+      "cache-control": "no-cache"
+    });
     response.end(request.method === "HEAD" ? undefined : contents);
   } catch {
     response.writeHead(404).end("Not found");

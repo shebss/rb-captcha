@@ -3,11 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f2eee4">
-    <title>Human-ish | Verification, unfortunately</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#f7f7f7">
+    <title>Sign in</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="src/registry.js"></script>
     <script defer src="src/games/precision.js"></script>
@@ -16,95 +13,55 @@
     <script defer src="src/games/retro-shooter.js"></script>
     <script defer src="src/games/reaction.js"></script>
     <script defer src="src/games/aim.js"></script>
-    <script defer src="src/app.js"></script>
+    <script defer src="src/login-captcha.js"></script>
   </head>
   <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <a class="brand" href="#" aria-label="Human-ish verification home">
-          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-          <span>human-ish<span class="brand-period">.</span></span>
-        </a>
-        <div class="topbar-meta"><span class="live-dot"></span> SECURITY CHECK</div>
-        <button class="text-button" id="help-button" type="button">HELP</button>
+    <main class="login-page">
+      <section class="login-panel" aria-labelledby="login-title">
+        <h1 id="login-title">Sign in</h1>
+        <label for="login-email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="username" placeholder="Email address">
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Password">
+        <button class="login-captcha" id="login-captcha" type="button" aria-pressed="false">
+          <span class="login-captcha-box" aria-hidden="true"></span>
+          <span>I'm not a robot</span>
+        </button>
+        <p class="login-captcha-status" id="login-captcha-status" aria-live="polite"></p>
+        <button type="button" class="login-submit" id="login-submit" disabled>Sign in</button>
+        <p class="login-note" id="login-note">demo, no authentification</p>
+      </section>
+    </main>
+    <dialog class="login-challenge" id="login-challenge" aria-labelledby="login-challenge-title">
+      <header class="login-challenge-header">
+        <h2 id="login-challenge-title">Human verification</h2>
+        <button type="button" id="login-challenge-close" aria-label="Close challenge">×</button>
       </header>
-
-      <main class="captcha-main">
-        <section class="captcha-widget" aria-label="Human verification">
-          <div class="widget-heading">
-            <div class="shield-icon" aria-hidden="true">✓</div>
-            <div><h1>Human verification</h1><p>Complete this check to continue.</p></div>
+      <div class="login-challenge-content">
+        <div class="login-play">
+          <p class="login-game-title" id="login-game-title"></p>
+          <p class="login-game-description" id="login-game-description"></p>
+          <div id="login-game-host"></div>
+          <p class="login-game-status" id="login-game-status" role="status" aria-live="polite"></p>
+        </div>
+        <aside class="login-easy" aria-labelledby="login-easy-title">
+          <p class="login-easy-ribbon"><span>The easy way</span><span aria-hidden="true">↗</span></p>
+          <div class="login-easy-art" aria-hidden="true">
+            <span class="login-easy-coin is-back">$</span><span class="login-easy-coin">$</span>
           </div>
-          <button class="captcha-checkbox" id="captcha-toggle" type="button" aria-pressed="false">
-            <span class="checkbox-square" aria-hidden="true"><span></span></span>
-            <span class="checkbox-label">I'm not a robot</span>
-            <span class="captcha-brand"><span class="captcha-brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><strong>CAPTCHA</strong><small>Privacy - Terms</small></span>
-          </button>
-          <div class="verified-note" id="verification-status" aria-live="polite"></div>
-          <dialog class="challenge-dialog" id="challenge-dialog" aria-label="CAPTCHA challenge">
-            <section class="challenge-area" id="challenge-area">
-            <div class="challenge-prompt"><span class="prompt-mark" aria-hidden="true">▦</span><div><strong>Complete the challenge</strong></div><button class="challenge-close" id="challenge-close" type="button" aria-label="Close challenge">×</button></div>
-            <div class="game-picker"><label for="game-selector">TEST GAME</label><select id="game-selector" aria-label="Select a game to test"><option value="">Random rotation</option></select></div>
-            <div class="game-layout" aria-label="Human verification game">
-              <div class="play-column">
-                <div class="progress-row">
-                  <div class="progress-copy"><span id="round-label">ROUND 01 / 03</span></div>
-                  <div class="progress-track" role="progressbar" aria-label="Challenge progress" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span id="progress-fill"></span></div>
-                </div>
-
-                <article class="game-card">
-                  <div class="card-topline">
-                    <span class="game-kind" id="game-kind">PRECISION GAME</span>
-                  </div>
-                  <div class="challenge-heading">
-                    <div>
-                      <p class="eyebrow">CHALLENGE <span id="challenge-step">01</span></p>
-                      <h2 id="game-title">Locate the green dot.</h2>
-                    </div>
-                    <div class="round-stamp" aria-hidden="true"><span>NO</span><span>PRESS</span><span>URE</span></div>
-                  </div>
-                  <p class="game-instruction" id="game-description">A simple little click. It only moves when you get close. Probably.</p>
-                  <div class="game-host" id="game-host" aria-live="polite"></div>
-                  <div class="card-footer">
-                    <span class="failure-copy"><span class="failure-icon" aria-hidden="true">!</span> <span id="failure-count">No mistakes</span></span>
-                    <span class="game-counter" id="game-counter">1 GAME TYPE IN ROTATION</span>
-                  </div>
-                </article>
-
-              </div>
-
-              <aside class="offer-panel" aria-labelledby="offer-title">
-                <div class="offer-ribbon"><span>THE EASY WAY</span><span aria-hidden="true">↗</span></div>
-                <div class="offer-art" aria-hidden="true">
-                  <div class="coin coin-back">$</div><div class="coin coin-front">$</div>
-                  <div class="offer-scribble">skip<br>the<br>nonsense</div>
-                </div>
-                <h2 id="offer-title">You could be done <em>right now.</em></h2>
-                <p class="offer-copy">Skip all remaining challenges and return to whatever you were doing.</p>
-                <button class="buy-button" id="buy-button" type="button"><span>SKIP EVERYTHING</span><span>$0.99 <span aria-hidden="true">↗</span></span></button>
-                <div class="demo-disclosure"><span class="demo-lock" aria-hidden="true">▣</span><span>SECURE CHECKOUT<br><strong>Payment handled by Stripe.</strong></span></div>
-              </aside>
-            </div>
-            </div>
-          </section>
-          </dialog>
-          <div class="widget-footer"><span>Protected by human-ish</span><span><button class="footer-link" id="help-link" type="button">Why am I seeing this?</button></span></div>
-        </section>
-
-        <footer class="site-footer"><span>HUMAN-ISH CAPTCHA CO.</span><span>MADE WITH QUESTIONABLE INTENTIONS</span><span>v0.0.1</span></footer>
-      </main>
-    </div>
-
-    <dialog class="modal" id="offer-dialog" aria-labelledby="dialog-title">
-      <button class="modal-close icon-button" id="dialog-close" type="button" aria-label="Close">×</button>
-      <div class="modal-stamp" aria-hidden="true">SECURE<br>CHECKOUT</div>
-      <p class="eyebrow" id="dialog-eyebrow">A MOMENT OF WEAKNESS?</p>
-      <p class="modal-copy" id="dialog-copy">Pay $0.99 through Stripe Checkout to skip the remaining challenges.</p>
-      <button class="buy-button modal-buy" id="confirm-buy" type="button"><span>PAY &amp; SKIP</span><span>$0.99 ↗</span></button>
-      <button class="keep-playing" id="keep-playing" type="button">KEEP PLAYING</button>
-      <p class="modal-disclosure">Payments processed securely by Stripe.</p>
+          <h3 id="login-easy-title">You could be done <em>right now.</em></h3>
+          <p class="login-easy-copy">Skip the challenge and get back to signing in.</p>
+          <button type="button" class="login-easy-button" id="login-skip-button"><span>Skip everything</span><span>$0.99 ↗</span></button>
+          <p class="login-easy-note">One-time payment via Stripe. Skips CAPTCHA only.</p>
+        </aside>
+      </div>
     </dialog>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <noscript>This very silly CAPTCHA needs JavaScript to make its games move.</noscript>
+    <dialog class="login-offer" id="login-offer" aria-labelledby="login-offer-eyebrow">
+      <p class="login-offer-eyebrow" id="login-offer-eyebrow">Skip verification?</p>
+      <p class="login-offer-copy" id="login-offer-copy">Pay $0.99 through Stripe Checkout to skip the CAPTCHA.</p>
+      <button type="button" class="login-offer-buy" id="login-offer-buy">Pay &amp; skip — $0.99</button>
+      <button type="button" class="login-offer-dismiss" id="login-offer-dismiss">Keep trying</button>
+      <p class="login-offer-note">Payments processed securely by Stripe.</p>
+    </dialog>
   </body>
 </html>
