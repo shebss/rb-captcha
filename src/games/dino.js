@@ -21,8 +21,24 @@
           <div class="dino-ground" aria-hidden="true"></div>
         </div>
         <div class="dino-controls"><button class="dino-jump" id="dino-jump" type="button">JUMP <span aria-hidden="true">↑</span></button><span class="dino-key-hint">OR PRESS SPACE</span></div>
+        <p class="dino-funfact" id="dino-funfact" hidden><span class="dino-funfact-label">Fun fact</span><span id="dino-funfact-text"></span></p>
       </div>
     `;
+
+    // One-line LeBron stat from the server (live game line, tonight's line, or season averages).
+    const funFact = element.querySelector("#dino-funfact");
+    const funFactText = element.querySelector("#dino-funfact-text");
+    const funFactRequest = new AbortController();
+    fetch("/api/lebron-stats", { signal: funFactRequest.signal })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((result) => {
+        if (!result?.text || finished) return;
+        funFactText.textContent = result.text;
+        funFactText.title = result.text;
+        funFact.classList.toggle("is-live", Boolean(result.live));
+        funFact.hidden = false;
+      })
+      .catch(() => {});
 
     const track = element.querySelector(".dino-track");
     const player = element.querySelector("#dino-sprite");
@@ -141,6 +157,7 @@
 
     return function cleanup() {
       finished = true;
+      funFactRequest.abort();
       window.cancelAnimationFrame(animationFrame);
       window.removeEventListener("keydown", onKeyDown);
       timers.forEach(window.clearTimeout);

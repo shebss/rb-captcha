@@ -43,7 +43,74 @@ function getConfiguredStripe(response) {
   return stripe;
 }
 
+// --- LeBron fun fact (ESPN public NBA data; nba.com's own API blocks this host) ---
+const LEBRON_ESPN_ID = "1966";
+const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba";
+const LEBRON_CACHE_MS = 30_000;
+let lebronCache = { at: 0, payload: null };
+
+async function fetchJson(target) {
+  const result = await fetch(target, { signal: AbortSignal.timeout(6000), headers: { accept: "application/json" } });
+  if (!result.ok) throw new Error(`HTTP ${result.status} from ${new URL(target).hostname}`);
+  return result.json();
+}
+
+async function buildLebronLine() {
+  const { athlete } = await fetchJson(`https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/athletes/${LEBRON_ESPN_ID}`);
+  const teamId = athlete?.team?.id;
+
+  if (teamId) {
+    const scoreboard = await fetchJson(`${ESPN_BASE}/scoreboard`);
+    const event = (scoreboard.events || []).find((candidate) =>
+      candidate.competitions?.[0]?.competitors?.some((competitor) => competitor.team?.id === teamId));
+    const state = event?.status?.type?.state;
+    if (event && (state === "in" || state === "post")) {
+      const summary = await fetchJson(`${ESPN_BASE}/summary?event=${encodeURIComponent(event.id)}`);
+      for (const team of summary.boxscore?.players || []) {
+        for (const group of team.statistics || []) {
+          const row = (group.athletes || []).find((entry) => entry.athlete?.id === LEBRON_ESPN_ID);
+          if (!row || row.didNotPlay || !row.stats?.length) continue;
+          const stat = (label) => row.stats[(group.labels || []).indexOf(label)];
+          const competitors = summary.header?.competitions?.[0]?.competitors || [];
+          const us = competitors.find((competitor) => competitor.team?.id === teamId);
+          const them = competitors.find((competitor) => competitor.team?.id !== teamId);
+          const box = `${stat("PTS")} PTS · ${stat("REB")} REB · ${stat("AST")} AST`;
+          if (state === "in") {
+            return { live: true, text: `LeBron right now vs ${them?.team?.abbreviation}: ${box} (${event.status.type.shortDetail})` };
+          }
+          const result = us?.winner ? "W" : "L";
+          return { live: false, text: `LeBron tonight vs ${them?.team?.abbreviation} (${result} ${us?.score}–${them?.score}): ${box}` };
+        }
+      }
+    }
+  }
+
+  const season = athlete?.statsSummary;
+  const value = (abbreviation) => season?.statistics?.find((stat) => stat.abbreviation === abbreviation)?.displayValue;
+  if (!value("PTS")) throw new Error("No LeBron stats available.");
+  const label = (season.displayName || "This season").replace(/ stats$/i, "");
+  return { live: false, text: `LeBron ${label}: ${value("PTS")} PPG · ${value("REB")} RPG · ${value("AST")} APG` };
+}
+
+async function handleLebronStats(response) {
+  if (Date.now() - lebronCache.at < LEBRON_CACHE_MS && lebronCache.payload) {
+    sendJson(response, 200, lebronCache.payload);
+    return;
+  }
+  try {
+    const payload = await buildLebronLine();
+    lebronCache = { at: Date.now(), payload };
+    sendJson(response, 200, payload);
+  } catch {
+    sendJson(response, 502, { error: "LeBron stats are unavailable right now." });
+  }
+}
+
 async function handleApi(request, response, url) {
+  if (request.method === "GET" && url.pathname === "/api/lebron-stats") {
+    await handleLebronStats(response);
+    return;
+  }
   if (request.method === "POST") {
     const origin = request.headers.origin;
     if (origin && origin !== new URL(baseUrl).origin) {
