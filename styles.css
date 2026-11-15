@@ -336,7 +336,7 @@ body { background: #f5f6f7; color: #202124; }
 .dino-track { height: 148px; margin-top: 8px; position: relative; overflow: hidden; border: 1px solid #d5d9c8; background: linear-gradient(#edf4fa 0 70%, #f8f7ed 70%); }
 .dino-skyline { position: absolute; inset: auto 0 30px; height: 30px; opacity: .35; background: radial-gradient(ellipse at 12% 100%, #a9c5a5 0 15%, transparent 16%), radial-gradient(ellipse at 70% 100%, #b4cda9 0 18%, transparent 19%); }
 .dino-ground { position: absolute; bottom: 23px; left: 0; right: 0; height: 2px; background: #7d8b72; }
-.dino-sprite { position: absolute; z-index: 2; left: 39px; bottom: 26px; width: 34px; height: 45px; transform-origin: center bottom; }
+.dino-sprite { position: absolute; z-index: 2; left: 39px; bottom: 26px; width: 40px; height: 52px; object-fit: contain; transform-origin: center bottom; user-select: none; pointer-events: none; }
 .dino-sprite.is-airborne { animation: lebron-hop .72s cubic-bezier(.2,.7,.25,1); }
 .lebron-head { position: absolute; z-index: 2; top: 0; left: 11px; width: 14px; height: 14px; background: #8d5437; border: 2px solid #25242a; border-radius: 2px; }
 .lebron-head::after { content: ""; position: absolute; top: -3px; left: 0; width: 10px; height: 4px; background: #17191e; }
@@ -449,3 +449,7 @@ body { background: #f5f6f7; color: #202124; }
 .aim-result.is-fail { background: #fce8e6; color: #a50e0e; }
 .aim-result.is-good { background: #e6f4ea; color: #137333; }
 .aim-window { margin-top: 10px; color: #80868b; font: 8px var(--mono); text-align: center; }
+
+/* Hide each game's top-left status text; counters on the right stay in place. */
+#sequence-status, #aim-status, #reaction-status, #dino-status, #retro-status { visibility: hidden; }
+.arena-status { display: none; }

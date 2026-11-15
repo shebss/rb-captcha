@@ -18,7 +18,8 @@ const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
-  ".md": "text/plain; charset=utf-8"
+  ".md": "text/plain; charset=utf-8",
+  ".png": "image/png"
 };
 
 function sendJson(response, status, payload) {
@@ -111,7 +112,8 @@ async function serveStatic(request, response, url) {
   const relativePath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
   const isPublicAsset = relativePath === "index.html" || relativePath === "styles.css" ||
     /^src\/(?:registry|app|login-captcha)\.js$/.test(relativePath) ||
-    /^src\/games\/[A-Za-z0-9._-]+\.js$/.test(relativePath);
+    /^src\/games\/[A-Za-z0-9._-]+\.js$/.test(relativePath) ||
+    /^src\/assets\/[A-Za-z0-9._-]+\.png$/.test(relativePath);
   if (!isPublicAsset) {
     response.writeHead(404).end("Not found");
     return;

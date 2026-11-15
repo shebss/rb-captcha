@@ -17,13 +17,7 @@
         <div class="dino-hud"><span id="dino-status">DEFENDER APPROACHING.</span><span id="dino-score">0 / ${requiredDodges}</span></div>
         <div class="dino-track" role="img" aria-label="LeBron basketball runner game">
           <div class="dino-skyline" aria-hidden="true"></div>
-          <div class="dino-sprite lebron-player" id="dino-sprite" aria-label="LeBron, number 23">
-            <span class="lebron-head"></span>
-            <span class="lebron-body"><span>23</span></span>
-            <span class="lebron-arm"></span>
-            <span class="lebron-leg lebron-leg-front"></span>
-            <span class="lebron-leg lebron-leg-back"></span>
-          </div>
+          <img class="dino-sprite lebron-player" id="dino-sprite" src="src/assets/lebron-sprite.png" alt="LeBron" draggable="false">
           <div class="dino-ground" aria-hidden="true"></div>
         </div>
         <div class="dino-controls"><button class="dino-jump" id="dino-jump" type="button">JUMP <span aria-hidden="true">↑</span></button><span class="dino-key-hint">OR PRESS SPACE</span></div>
