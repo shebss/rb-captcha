@@ -77,7 +77,6 @@
         </div>
         <div class="aim-window" id="aim-window"></div>
       </div>
-      <div class="game-hint"><span class="hint-mark" aria-hidden="true">↳</span><span id="aim-hint"></span></div>
     `;
 
     const arena = element.querySelector("#aim-arena");
@@ -85,7 +84,6 @@
     const status = element.querySelector("#aim-status");
     const hitsLabel = element.querySelector("#aim-hits");
     const windowLabel = element.querySelector("#aim-window");
-    const hintLabel = element.querySelector("#aim-hint");
 
     function schedule(callback, delay) {
       const timer = window.setTimeout(() => {
@@ -113,8 +111,6 @@
           : `AVG ${avgMs()} ms / TARGET — LIMIT ${config.avgLimitMs} ms`;
       windowLabel.textContent =
         `DIFFICULTY: ${config.label} · AVG LIMIT: ${config.avgLimitMs} ms · TARGETS: ${config.targets} · MISSES: ${misses}/${config.missLimit}`;
-      hintLabel.textContent =
-        `Hit all ${config.targets} targets with an average at or under ${config.avgLimitMs} ms. Grey ✕ targets are decoys — do not click them.`;
     }
 
     function arenaSize() {

@@ -20,7 +20,6 @@
         </div>
         <div class="sequence-footer"><span id="sequence-progress">WATCH</span><button class="sequence-replay" id="sequence-replay" type="button">REPLAY (2)</button></div>
       </div>
-      <div class="game-hint"><span class="hint-mark" aria-hidden="true">↳</span><span>Repeat the exact sequence in order. It gets longer and your confidence gets shorter.</span></div>
     `;
 
     const status = element.querySelector("#sequence-status");

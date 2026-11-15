@@ -82,7 +82,6 @@ h1 em, .offer-panel h2 em, .modal h2 em { color: var(--green); font-style: norma
 .decoy-three { background: #a4ca35; box-shadow: 0 0 0 4px #a4ca3532; }
 .decoy-four { background: #176345; box-shadow: 0 0 0 4px #17634532; }
 .game-hint { display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; color: var(--muted); font-size: 11px; line-height: 1.45; }
-.hint-mark { color: var(--orange); font: 14px var(--mono); }
 .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8e4da; margin-top: 14px; padding-top: 13px; gap: 12px; }
 .failure-copy { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
 .failure-icon { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #f9e8dd; color: var(--orange); font: 10px var(--mono); }
@@ -216,8 +215,7 @@ body:has(.login-page) { min-width: 320px; min-height: 100vh; margin: 0; backgrou
 .login-challenge-header button { width: 32px; height: 32px; border: 0; background: transparent; color: #fff; font-size: 23px; cursor: pointer; }
 .login-challenge-header button:hover { background: #ffffff22; }
 .login-challenge-content { padding: 14px; }
-.login-game-title { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
-.login-game-description { margin: 0 0 12px; color: #666; font-size: 12px; }
+.login-game-title { margin: 0 0 12px; font-size: 16px; font-weight: 600; }
 .login-game-status { min-height: 16px; margin: 10px 0 0; color: #555; font-size: 12px; }
 .login-challenge .game-hint { color: #666; }
 .login-skip { margin-top: 16px; padding-top: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; border-top: 1px solid #e2e2e2; }
@@ -225,6 +223,9 @@ body:has(.login-page) { min-width: 320px; min-height: 100vh; margin: 0; backgrou
 .login-skip-button:hover { color: #111; }
 .login-skip-button:disabled { color: #888; cursor: wait; }
 .login-skip span { color: #777; font-size: 11px; }
+/* TEMP: test game selector */
+.login-test-picker { margin-left: auto; margin-right: 8px; display: flex; align-items: center; gap: 6px; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+.login-test-picker select { height: 28px; max-width: 180px; border: 1px solid #fff8; border-radius: 2px; background: #fff; color: #222; font: 12px Arial, Helvetica, sans-serif; }
 .login-challenge-content { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; align-items: start; }
 .login-play { min-width: 0; }
 .login-easy { padding: 14px; display: flex; flex-direction: column; border: 1px solid #e2c36b; border-radius: 2px; background: #fff8e1; }

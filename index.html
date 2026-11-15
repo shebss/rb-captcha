@@ -35,12 +35,15 @@
     <dialog class="login-challenge" id="login-challenge" aria-labelledby="login-challenge-title">
       <header class="login-challenge-header">
         <h2 id="login-challenge-title">Human verification</h2>
+        <!-- TEMP: game selector for testing. Remove before shipping. -->
+        <label class="login-test-picker">Test game
+          <select id="login-game-selector"><option value="">Random</option></select>
+        </label>
         <button type="button" id="login-challenge-close" aria-label="Close challenge">×</button>
       </header>
       <div class="login-challenge-content">
         <div class="login-play">
           <p class="login-game-title" id="login-game-title"></p>
-          <p class="login-game-description" id="login-game-description"></p>
           <div id="login-game-host"></div>
           <p class="login-game-status" id="login-game-status" role="status" aria-live="polite"></p>
         </div>

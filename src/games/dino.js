@@ -28,7 +28,6 @@
         </div>
         <div class="dino-controls"><button class="dino-jump" id="dino-jump" type="button">JUMP <span aria-hidden="true">↑</span></button><span class="dino-key-hint">OR PRESS SPACE</span></div>
       </div>
-      <div class="game-hint"><span class="hint-mark" aria-hidden="true">↳</span><span>Help LeBron get past ${requiredDodges} defenders.</span></div>
     `;
 
     const track = element.querySelector(".dino-track");

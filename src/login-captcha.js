@@ -5,12 +5,12 @@
   const checkboxStatus = document.querySelector("#login-captcha-status");
   const challenge = document.querySelector("#login-challenge");
   const gameTitle = document.querySelector("#login-game-title");
-  const gameDescription = document.querySelector("#login-game-description");
   const gameHost = document.querySelector("#login-game-host");
   const gameStatus = document.querySelector("#login-game-status");
   const submitButton = document.querySelector("#login-submit");
   const loginNote = document.querySelector("#login-note");
   const skipButton = document.querySelector("#login-skip-button");
+  const gameSelector = document.querySelector("#login-game-selector");
   const offer = document.querySelector("#login-offer");
   const offerEyebrow = document.querySelector("#login-offer-eyebrow");
   const offerCopy = document.querySelector("#login-offer-copy");
@@ -76,18 +76,24 @@
       return;
     }
 
+    challenge.showModal();
+    scheduleRandomNag();
+    mountGame();
+  }
+
+  function mountGame() {
     clearGame();
-    const availableGames = games.length > 1
-      ? games.filter((game) => game.id !== previousGameId)
-      : games;
-    const game = availableGames[Math.floor(Math.random() * availableGames.length)];
+    let game = gameSelector.value && games.find((candidate) => candidate.id === gameSelector.value);
+    if (!game) {
+      const availableGames = games.length > 1
+        ? games.filter((candidate) => candidate.id !== previousGameId)
+        : games;
+      game = availableGames[Math.floor(Math.random() * availableGames.length)];
+    }
     previousGameId = game.id;
     mistakes = 0;
     gameTitle.textContent = game.title;
-    gameDescription.textContent = game.description;
     gameStatus.textContent = "Complete the challenge to continue.";
-    challenge.showModal();
-    scheduleRandomNag();
     cleanupGame = game.mount({
       element: gameHost,
       round: 1,
@@ -109,6 +115,12 @@
       }
     });
   }
+
+  // TEMP: game selector for testing. Remove before shipping.
+  games.forEach((game) => gameSelector.add(new Option(`${game.title} (${game.type})`, game.id)));
+  gameSelector.addEventListener("change", () => {
+    if (challenge.open && !verified) mountGame();
+  });
 
   checkbox.addEventListener("click", () => {
     if (!verified) startChallenge();

@@ -92,7 +92,6 @@
           WIN WINDOW: ???–??? ms &nbsp;·&nbsp; RANDOMISED EVERY TRIAL
         </div>
       </div>
-      <div class="game-hint"><span class="hint-mark" aria-hidden="true">↳</span><span id="reaction-hint">Click only on true green, inside the randomised ms window. Too fast is suspicious. Too slow is also suspicious. Fakeouts are lying to you.</span></div>
     `;
 
     const panel = element.querySelector("#reaction-panel");
@@ -102,13 +101,10 @@
     const status = element.querySelector("#reaction-status");
     const hitsLabel = element.querySelector("#reaction-hits");
     const windowLabel = element.querySelector("#reaction-window");
-    const hintLabel = element.querySelector("#reaction-hint");
 
     function updateWindowDisplay() {
       windowLabel.textContent =
         `WIN WINDOW: ${currentWindow.minMs}–${currentWindow.maxMs} ms · FAKEOUTS: ${config.fakeouts} · TOO FAST < ${currentWindow.minMs} ms = ROBOT`;
-      hintLabel.textContent =
-        `Click only on true green, between ${currentWindow.minMs} and ${currentWindow.maxMs} ms this trial. Too fast is suspicious. Too slow is also suspicious. Fakeouts are lying to you.`;
     }
 
     function schedule(callback, delay) {

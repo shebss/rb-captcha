@@ -11,7 +11,7 @@
     element.innerHTML = `
       <div class="arena" aria-label="Game area">
         <div class="arena-grid" aria-hidden="true"></div>
-        <div class="arena-status"><span class="arena-pulse"></span><span id="arena-message">TARGET IS CALM. YOU ARE CALM.</span></div>
+        <div class="arena-status"><span class="arena-pulse"></span><span id="arena-message"></span></div>
         <button class="dot-target" type="button" aria-label="Green dot"></button>
         <button class="dot-decoy decoy-one" type="button" aria-label="Blue decoy"></button>
         <button class="dot-decoy decoy-two" type="button" aria-label="Orange decoy"></button>
@@ -19,7 +19,6 @@
         <button class="dot-decoy decoy-four" type="button" aria-label="Dark green decoy"></button>
         <div class="arena-coordinates" aria-hidden="true">X: ??? &nbsp; Y: ???</div>
       </div>
-      <div class="game-hint"><span class="hint-mark" aria-hidden="true">↳</span><span>Click the green dot. Dodge it ${dodgeLimit} times first. The almost-green dots are decoys.</span></div>
     `;
 
     const arena = element.querySelector(".arena");
@@ -88,7 +87,7 @@
     id: "precision-dot",
     type: "precision",
     title: "Locate the green dot.",
-    description: "A simple little click. It only moves when you get close. Probably.",
+    description: "",
     mount
   });
 })();
